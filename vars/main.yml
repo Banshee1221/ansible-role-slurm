@@ -1,0 +1,8 @@
+db_host: localhost
+db_user: root
+db_pass: 123qwe123qwe
+db_port: 3306
+slurm_version: 17.02.11
+slurm_install_dir: /tools/admin/slurm
+slurm_mariadb_name: slurm
+slurm_mariadb_pass:

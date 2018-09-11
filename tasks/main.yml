@@ -1,0 +1,11 @@
+---
+
+# - name: Check if Database exists on machine
+#   shell: "ss -tulpn | grep {{ db_port }}"
+#   register: port_test
+#   ignore_errors: yes
+
+- name: Prepare database for Slurm
+  include_tasks: 01_database.yml
+  connection: local
+  become: no

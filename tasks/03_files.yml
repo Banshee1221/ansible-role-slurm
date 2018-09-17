@@ -1,0 +1,43 @@
+---
+
+- name: Set fact about hosts for templates
+  set_fact:
+    hpc: "{{ groups['hpc-compute'] }}"
+  when: inventory_hostname == groups['slurm'][0]
+  
+- name: Template out the Slurm conf files
+  template:
+    src: "{{ role_path }}/files/{{ item }}.j2"
+    dest: "{{ var_slurm_install_dir }}/etc/{{ item }}"
+    owner: slurm
+    group: slurm
+    mode: 0644
+  with_items:
+    - cgroup.conf
+    - cgroup_allowed_devices_file.conf
+    - slurm.conf
+    - slurmdbd.conf
+  when: inventory_hostname == groups['slurm'][0]
+
+- name: Template out the service files to the slurm controller
+  template:
+    src: "{{ role_path }}/files/{{ item }}.j2"
+    dest: "/etc/systemd/system/{{ item }}"
+    owner: root
+    group: root
+    mode: 0644
+  with_items:
+    - slurmctld.service
+    - slurmdbd.service
+  when: inventory_hostname == groups['slurm'][0]
+
+- name: Template out service files to all machines
+  template:
+    src: "{{ role_path }}/files/{{ item }}.j2"
+    dest: "/etc/systemd/system/{{ item }}"
+    owner: root
+    group: root
+    mode: 0644
+  with_items:
+    - slurmd.service
+  when: inventory_hostname not in groups['slurm']

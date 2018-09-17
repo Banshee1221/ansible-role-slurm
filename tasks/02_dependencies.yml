@@ -14,7 +14,7 @@
     src: /etc/munge/munge.key
     dest: "{{ conf_dir }}/munge.key"
     flat: yes
-  when: inventory_hostname == groups['all'][0]
+  when: "slurm_builder is defined"
 
 - name: Check if pub key exists on slurm master
   stat:

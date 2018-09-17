@@ -31,8 +31,8 @@ PluginDir={{ slurm_install_dir }}/lib/slurm/
 #
 # Database info
 StorageType=accounting_storage/mysql
-#StorageHost=localhost
-#StoragePort=1234
+StorageHost={{ db_host }}
+StoragePort={{ db_port }}
 StoragePass={{ slurm_mariadb_pass }}
 StorageUser=slurm
 StorageLoc={{ slurm_mariadb_name }}

@@ -3,7 +3,7 @@
 - name: Set fact about hosts for templates
   set_fact:
     hpc: "{{ groups['slurm'] }}"
-  when: headnode is defined
+  when: headnode is not defined
   
 - name: Template out the Slurm conf files
   template:

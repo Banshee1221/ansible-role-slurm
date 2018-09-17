@@ -25,7 +25,7 @@ DebugLevel=4
 #DefaultQOS=normal,standby
 LogFile=/var/log/slurm/slurmdbd.log
 PidFile=/var/run/slurm/slurmdbd.pid
-PluginDir={{ var_slurm_install_dir }}/lib/slurm/
+PluginDir={{ slurm_install_dir }}/lib/slurm/
 #PrivateData=accounts,users,usage,jobs
 #TrackWCKey=yes
 #
@@ -33,7 +33,7 @@ PluginDir={{ var_slurm_install_dir }}/lib/slurm/
 StorageType=accounting_storage/mysql
 #StorageHost=localhost
 #StoragePort=1234
-StoragePass={{ var_slurm_mariadb_pass }}
+StoragePass={{ slurm_mariadb_pass }}
 StorageUser=slurm
-StorageLoc={{ var_slurm_mariadb_name }}
+StorageLoc={{ slurm_mariadb_name }}
 

@@ -10,7 +10,7 @@ ONLY MYSQL/MARIADB or compliant DBs are compatible.
 
 1. Have a "slurm" section to your ansible inventory.
 2. Mark one of the slurm nodes with the variable `slurm_builder=True`, so that the role knows which node to build slurm on. This is also used for other things so ensure it's set in the slurm group.
-3. Mark the headnodes/submit nodes with the variable `headnode=True`, so as to avoid deploying the slurm daemon there.
+3. Mark the headnode with the variable `headnode=True`, so as to avoid deploying the slurm daemon there. *THIS ROLE ONLY SUPPORTS ON HEADNODE AS OF NOW, THINGS WILL BREAK WITH MORE*
 4. Create a playbook that includes this role. E.g.:
    ```shell
    - hosts: all

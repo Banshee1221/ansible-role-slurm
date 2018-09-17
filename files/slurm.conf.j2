@@ -2,7 +2,12 @@
 # Put this file on all nodes of your cluster.
 # See the slurm.conf man page for more information.
 #
-ControlMachine={{ groups['slurm'][0] }}
+{% for host in groups['slurm'] %}
+{% if hostvars[host].headnode is defined %}
+ControlMachine={{ host }}
+{% else %}
+{% endif %}
+{% endfor %}
 #ControlAddr=
 #BackupController=
 #BackupAddr=
@@ -159,7 +164,8 @@ SlurmdDebug=3
 PartitionName=debug Nodes=ALL Default=YES MaxTime=INFINITE State=UP
 # COMPUTE NODES
 {% for host in hpc %}
-    {% if hostvars[host].headnode %}
-    
+{% if hostvars[host].headnode is defined %}
+{% else %}
 NodeName={{ hostvars[host].inventory_hostname }} Boards=1 SocketsPerBoard={{ hostvars[host].ansible_processor_count }} CoresPerSocket={{ hostvars[host].ansible_processor_cores }} ThreadsPerCore={{ hostvars[host].ansible_processor_threads_per_core }} RealMemory={{ hostvars[host].ansible_memtotal_mb }} State=UNKNOWN
+{% endif %}
 {% endfor %}

@@ -13,6 +13,9 @@
     - libpam0g-dev
     - libmariadb-client-lgpl-dev
     - libmysqlclient-dev
+    - munge
+    - libmunge-dev
+    - libmunge2
 
 - name: Get slurm
   get_url:

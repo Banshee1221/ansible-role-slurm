@@ -9,8 +9,8 @@ ONLY MYSQL/MARIADB or compliant DBs are compatible.
 ## To use:
 
 1. Have a "slurm" section to your ansible inventory.
-2. Mark one of the slurm nodes with the variables `slurm_builder=True`, so that the role knows which node to build slurm on. This is also used for other things so ensure it's set in the slurm group.
-3. Have a "database" section to your ansible inventory. If there is no database then DBD will not be deployed.
+2. Mark one of the slurm nodes with the variable `slurm_builder=True`, so that the role knows which node to build slurm on. This is also used for other things so ensure it's set in the slurm group.
+3. Mark the headnodes/submit nodes with the variable `headnode=True`, so as to avoid deploying the slurm daemon there.
 4. Create a playbook that includes this role. E.g.:
    ```shell
    - hosts: all

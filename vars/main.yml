@@ -1,5 +1,5 @@
 db_host: localhost
-db_user: root12
+db_user: root
 db_pass: 123qwe123qwe
 db_port: 3307
 slurm_version: 17.02.11

@@ -1,0 +1,58 @@
+---
+
+- name: Check if Database exists on machine
+  wait_for: "host={{ db_host }} port={{ db_port }} timeout=5"
+  register: dbfail
+  failed_when: false
+  ignore_errors: yes
+  when: slurm_builder is defined
+  run_once: true
+
+- name: Prepare database for Slurm
+  include_tasks: 01_database.yml
+  connection: local
+  become: no
+  when: "(not dbfail['failed']) and (slurm_builder is defined)"
+  run_once: true
+
+- name: Check if slurm is compiled/installed
+  stat:
+    path: "{{ slurm_install_dir }}"
+  register: stat_result
+  when: slurm_builder is defined
+  run_once: true
+
+- name: Compile slurm 
+  include_tasks: _compile.yml
+  when: (stat_result.stat.exists == False) and (slurm_builder is defined)
+
+- name: Install Slurm dependencies
+  include_tasks: 02_dependencies.yml
+
+- name: Deploy Slurm files
+  include_tasks: 03_files.yml
+
+- name: Start controller services
+  service:
+    name: "{{ item }}"
+    state: started
+    enabled: yes
+  with_items:
+    - slurmdbd.service
+    - slurmctld.service
+  when: headnode is defined
+
+- name: Start slurmd
+  service:
+    name: slurmd.service
+    state: started
+    enabled: yes
+  when: headnode is not defined
+ 
+- name: Copy environment file
+  template:
+    src: "{{ role_path }}/files/environment"
+    dest: /etc/environment
+    mode: 644
+    owner: root
+    group: root

@@ -1,0 +1,28 @@
+---
+
+- name: Install MySQL-python
+  apt:
+    name: python-mysqldb
+    state: present
+
+- name: Create slurm db
+  mysql_db:
+    name: "{{ slurm_mariadb_name }}"
+    state: present
+    login_host: "{{ db_host }}"
+    login_user: "{{ db_user }}"
+    login_password: "{{ db_pass }}"
+    login_port: "{{ db_port }}"
+  ignore_errors: yes
+
+- name: Create slurm user
+  mysql_user:
+    name: "{{ slurm_mariadb_name }}"
+    password: "{{ slurm_mariadb_pass }}"
+    priv: 'slurm.*:ALL'
+    state: present
+    login_host: "{{ db_host }}"
+    login_user: "{{ db_user }}"
+    login_password: "{{ db_pass }}"
+    login_port: "{{ db_port }}"
+  ignore_errors: yes

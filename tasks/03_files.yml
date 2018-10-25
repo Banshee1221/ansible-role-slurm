@@ -1,8 +1,19 @@
 ---
 
+- name: Initialize empty list for partitions
+  set_fact:
+    end_list: []
+
+- name: Set facts about partitions
+  set_fact:
+    end_list: "{{ end_list }} + {{ hostvars[item].partitions|default([]) }}"
+  loop: "{{ play_hosts }}"
+  run_once: true
+  ignore_errors: yes
+
 - name: Set fact about hosts for templates
   set_fact:
-    hpc: "{{ groups['slurm'] }}"
+    hpc: "{{ play_hosts }}"
   when: headnode is defined
   run_once: True
   

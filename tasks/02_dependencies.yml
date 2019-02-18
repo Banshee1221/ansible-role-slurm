@@ -9,6 +9,25 @@
     - libmunge-dev
     - libmunge2
 
+- name: Stop munge service
+  service:
+    name: munge
+    state: stopped
+
+- name: Copy munge.service
+  copy:
+      src: "{{ role_path }}/files/munge.service"
+      dest: /lib/systemd/system/munge.service
+      owner: root
+      group: root
+      mode: 0644
+
+- name: Restart munge service
+  systemd:
+    name: munge
+    state: started
+    daemon_reload: yes
+
 - name: Retrieve key for munge cluster
   fetch:
     src: /etc/munge/munge.key

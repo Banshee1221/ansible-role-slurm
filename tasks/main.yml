@@ -37,20 +37,22 @@
   include_tasks: 03_files.yml
 
 - name: Start controller services
-  service:
+  systemctl:
     name: "{{ item }}"
     state: restarted
     enabled: yes
+    daemon_reload: yes
   with_items:
     - slurmdbd.service
     - slurmctld.service
   when: headnode is defined
 
 - name: Start slurmd
-  service:
+  systemctl:
     name: slurmd.service
     state: restarted
     enabled: yes
+    daemon_reload: yes
   when: headnode is not defined
  
 - name: Copy environment file

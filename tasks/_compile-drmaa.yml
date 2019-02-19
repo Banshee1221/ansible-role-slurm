@@ -17,7 +17,6 @@
       dest: /tmp/
       remote_src: yes
     become: true
-    become_user: slurm
   
   - name: Compile slurm-drmaa
     command: "{{ item }} chdir=/tmp/slurm-drmaa-{{ slurm_drmaa_version }}"
@@ -29,4 +28,3 @@
       - "make"
       - "make install"
     become: true
-    become_user: slurm

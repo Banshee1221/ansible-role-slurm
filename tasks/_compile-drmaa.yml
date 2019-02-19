@@ -16,15 +16,13 @@
       src: /tmp/slurm-drmaa-{{ slurm_drmaa_version }}.tar.gz
       dest: /tmp/
       remote_src: yes
-    become: true
   
   - name: Compile slurm-drmaa
     command: "{{ item }} chdir=/tmp/slurm-drmaa-{{ slurm_drmaa_version }}"
-    creates: "{{ slurm_install_dir }}/lib/libdrmaa.so"
+   # creates: "{{ slurm_install_dir }}/lib/libdrmaa.so"
     environment:
       PATH: "{{ slurm_install_dir }}/bin:{{ ansible_env.PATH }}"
     loop:
       - "./configure --prefix={{ slurm_install_dir }} --sysconfdir={{ slurm_install_dir }}/etc --with-slurm-inc={{ slurm_install_dir }}/include --with-slurm-lib={{ slurm_install_dir }}/lib" 
       - "make"
       - "make install"
-    become: true

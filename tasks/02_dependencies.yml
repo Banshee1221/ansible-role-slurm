@@ -9,6 +9,25 @@
     - libmunge-dev
     - libmunge2
 
+- name: Stop munge service
+  service:
+    name: munge
+    state: stopped
+
+- name: Copy munge.service
+  copy:
+      src: "{{ role_path }}/files/munge.service"
+      dest: /lib/systemd/system/munge.service
+      owner: root
+      group: root
+      mode: 0644
+
+- name: Restart munge service
+  systemd:
+    name: munge
+    state: started
+    daemon_reload: yes
+
 - name: Retrieve key for munge cluster
   fetch:
     src: /etc/munge/munge.key
@@ -26,7 +45,9 @@
   shell: ssh-keygen -b 2048 -t rsa -f /root/.ssh/id_rsa -q -N ""
   args:
     creates: /root/.ssh/id_rsa
-  when: (inventory_hostname == groups['slurm'][0]) and ( stat_ssh.stat.exists == False | default(False))
+  when:
+    - inventory_hostname == groups['slurm'][0]
+    - ("stat" in stat_ssh) and (stat_ssh.stat.exists == False | default(False))
 
 - name: Retrieve public key from slurm master
   slurp:

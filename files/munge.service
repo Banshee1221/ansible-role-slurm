@@ -2,6 +2,7 @@
 Description=MUNGE authentication service
 Documentation=man:munged(8)
 After=network.target
+Wants=sssd.service
 After=sssd.service
 After=time-sync.target
 

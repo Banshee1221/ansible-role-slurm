@@ -45,7 +45,9 @@
   shell: ssh-keygen -b 2048 -t rsa -f /root/.ssh/id_rsa -q -N ""
   args:
     creates: /root/.ssh/id_rsa
-  when: (inventory_hostname == groups['slurm'][0]) and (stat_ssh.stat.exists == False | default(False))
+  when:
+    - inventory_hostname == groups['slurm'][0]
+    - ("stat" in stat_ssh) and (stat_ssh.stat.exists == False | default(False))
 
 - name: Retrieve public key from slurm master
   slurp:

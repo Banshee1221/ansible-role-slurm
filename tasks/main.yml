@@ -37,7 +37,7 @@
   include_tasks: 03_files.yml
 
 - name: Start controller services
-  systemctl:
+  systemd:
     name: "{{ item }}"
     state: restarted
     enabled: yes
@@ -48,7 +48,7 @@
   when: headnode is defined
 
 - name: Start slurmd
-  systemctl:
+  systemd:
     name: slurmd.service
     state: restarted
     enabled: yes

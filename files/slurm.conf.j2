@@ -167,7 +167,10 @@ SlurmdDebug=3
 {% set _dummy = temp_dict.update({partition: []}) %}
 {% for host in hpc %}
 {% if partition in hostvars[host].partitions %}
+{% if hostvars[host].headnode is defined %}
+{% else %}
 {% set _dummy = temp_dict[partition].append(host) %}
+{% endif %}
 {% else %}
 {% endif %}
 {% endfor %}

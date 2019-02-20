@@ -6,7 +6,7 @@
 
 - name: Set facts about partitions
   set_fact:
-    end_list: "{{ end_list }} + {{ hostvars[item].partitions|default([]) }}"
+    end_list: "{{ end_list }} + {{ hostvars[item].partitions|default(['main']) }}"
   loop: "{{ play_hosts }}"
   run_once: true
   ignore_errors: yes

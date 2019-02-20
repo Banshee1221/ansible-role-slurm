@@ -6,8 +6,10 @@ ConditionPathExists={{ slurm_install_dir }}/etc/slurm.conf
 [Service]
 Type=oneshot
 EnvironmentFile=-/etc/sysconfig/slurmctld
-ExecStart={{ slurm_install_dir }}/sbin/slurmctld $SLURMCTLD_OPTIONS
-ExecReload=/bin/kill -HUP $MAINPID
+ExecStartPre=-/usr/bin/pkill -KILL slurmctld
+ExecStart=/tools/admin/slurm/sbin/slurmctld $SLURMCTLD_OPTIONS
+ExecReload=-/bin/kill -HUP $MAINPID
+ExecStop=-/usr/bin/pkill -KILL slurmctld
 PIDFile=/var/run/slurm/slurmctld.pid
 KillMode=process
 LimitNOFILE=51200

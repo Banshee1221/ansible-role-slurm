@@ -8,6 +8,7 @@
     - munge
     - libmunge-dev
     - libmunge2
+    - procps
 
 - name: Stop munge service
   service:

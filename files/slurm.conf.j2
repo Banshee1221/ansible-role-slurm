@@ -176,7 +176,7 @@ SlurmdDebug=3
 {% endfor %}
 {% endfor %}
 {% for key in temp_dict %}
-PartitionName={{ key|safe }} Nodes={{ temp_dict[key]|join(',') }} Default={{ 'YES' if key.lower()=='default' else 'NO' }} MaxTime=INFINITE State=UP
+PartitionName={{ key|safe }} Nodes={{ temp_dict[key]|join(',') }} Default={{ 'YES' if key.lower()=='main' else 'NO' }} MaxTime=INFINITE State=UP
 {% endfor %}
 # COMPUTE NODES
 {% for host in hpc %}

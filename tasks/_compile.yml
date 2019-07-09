@@ -2,7 +2,8 @@
 
 - name: Install build deps for slurm
   apt:
-    name: [git, gcc, make, ruby, ruby-dev, libpam0g-dev, libmariadb-client-lgpl-dev, libmysqlclient-dev, munge, libmunge-dev, libmunge2]
+    name: [git, gcc, make, ruby, ruby-dev, libpam0g-dev, libmariadb-client-lgpl-dev, libmysqlclient-dev, munge, libmunge-dev, libmunge2, python]
+    update_cache: yes
     state: present
 
 - name: Get slurm

@@ -11,21 +11,23 @@
       stat:
         path: /root/.ssh/id_rsa
       register: stat_ssh
-      when: inventory_hostname == groups['all'][0]
+      when:
+        - headnode
 
     - name: Generate SSH keys on slurm master
       shell: ssh-keygen -b 2048 -t rsa -f /root/.ssh/id_rsa -q -N ""
       args:
         creates: /root/.ssh/id_rsa
       when:
-        - inventory_hostname == groups['slurm'][0]
+        - headnode
         - ("stat" in stat_ssh) and (stat_ssh.stat.exists == False | default(False))
 
     - name: Retrieve public key from slurm master
       slurp:
         src:  /root/.ssh/id_rsa.pub
       register: pubkey
-      when: inventory_hostname == groups['slurm'][0]
+      when: 
+        - headnode
 
     - name: Distribute public key to cluster
       lineinfile:

@@ -29,7 +29,7 @@
     - cgroup.conf
     - cgroup_allowed_devices_file.conf
     - slurm.conf
-    - slurmdbd.conf
+    - { src: slurmdbd.conf, when: slurm_use_db }
   when:
     - headnode is defined
 
@@ -42,7 +42,7 @@
     mode: 0644
   loop:
     - slurmctld.service
-    - slurmdbd.service
+    - { src: slurmdbd.service, when: slurm_use_db }
   when:
     - headnode is defined
 

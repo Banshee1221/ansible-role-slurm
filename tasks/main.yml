@@ -7,6 +7,7 @@
   ignore_errors: yes
   when: 
     - slurm_builder is defined
+    - slurm_use_db
   run_once: true
 
 - name: Prepare database for Slurm
@@ -14,6 +15,7 @@
   connection: local
   become: no
   when:
+    - slurm_use_db
     - not dbfail['failed']
     - slurm_builder is defined
   run_once: true

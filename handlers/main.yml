@@ -34,6 +34,7 @@
     daemon_reload: yes
   when:
     - headnode is defined
+    - slurm_use_db
 
 - name: systemd restart slurmd
   systemd:

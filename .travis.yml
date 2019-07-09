@@ -1,0 +1,15 @@
+services: docker
+
+before_install:
+  - docker -v
+install:
+  # Start the docker stuff
+  - cd travis
+  - docker-compose up -d
+  - sleep 10
+script:
+  - docker-compose exec headnode bash -c "cd /ansible && ansible-playbook -i inventory site.yml"
+# after_success:
+#   # Deployable image tags must be in format: web-latest, cli-latest, nginx-latest
+#   - if [[ $TRAVIS_BRANCH == 'master' ]]; then docker tag "bkuhl/laravel-starter:web" "bkuhl/laravel-starter:web-latest" && docker push "bkuhl/laravel-starter:web-latest" ; fi
+#  - if [[ $TRAVIS_BRANCH == 'master' ]]; then docker tag "bkuhl/laravel-starter:cli" "bkuhl/laravel-starter:cli-latest" && docker push "bkuhl/laravel-starter:cli-latest" ; fi

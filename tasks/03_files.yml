@@ -20,31 +20,33 @@
   
 - name: Template out the Slurm conf files
   template:
-    src: "{{ role_path }}/files/{{ item }}.j2"
-    dest: "{{ slurm_install_dir }}/etc/{{ item }}"
+    src: "{{ role_path }}/files/{{ item.src }}.j2"
+    dest: "{{ slurm_install_dir }}/etc/{{ item.src }}"
     owner: slurm
     group: slurm
     mode: 0644
-  loop:
-    - cgroup.conf
-    - cgroup_allowed_devices_file.conf
-    - slurm.conf
-    - { src: slurmdbd.conf, when: slurm_use_db }
   when:
     - headnode is defined
-
+    - item.when
+  loop:
+    - { src: cgroup.conf, when: True }
+    - { src: cgroup_allowed_devices_file.conf, when: True }
+    - { src: slurm.conf, when: True }
+    - { src: slurmdbd.conf, when: "{{slurm_use_db}}" }
+  
 - name: Template out the service files to the slurm controller
   template:
-    src: "{{ role_path }}/files/{{ item }}.j2"
-    dest: "/etc/systemd/system/{{ item }}"
+    src: "{{ role_path }}/files/{{ item.src }}.j2"
+    dest: "/etc/systemd/system/{{ item.src }}"
     owner: root
     group: root
     mode: 0644
-  loop:
-    - slurmctld.service
-    - { src: slurmdbd.service, when: slurm_use_db }
   when:
     - headnode is defined
+    - item.when
+  loop:
+    - { src: slurmctld.service, when: True }
+    - { src: slurmdbd.service, when: "{{slurm_use_db}}" }
 
 - name: Template out service files to all machines
   template:

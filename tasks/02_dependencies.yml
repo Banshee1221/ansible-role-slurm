@@ -12,14 +12,14 @@
         path: /root/.ssh/id_rsa
       register: stat_ssh
       when:
-        - headnode
+        - headnode is defined
 
     - name: Generate SSH keys on slurm master
       shell: ssh-keygen -b 2048 -t rsa -f /root/.ssh/id_rsa -q -N ""
       args:
         creates: /root/.ssh/id_rsa
       when:
-        - headnode
+        - headnode is defined
         - ("stat" in stat_ssh) and (stat_ssh.stat.exists == False | default(False))
 
     - name: Retrieve public key from slurm master
@@ -27,7 +27,7 @@
         src:  /root/.ssh/id_rsa.pub
       register: pubkey
       when: 
-        - headnode
+        - headnode is defined
 
     - name: Distribute public key to cluster
       lineinfile:
@@ -82,6 +82,17 @@
         - munge_external_key
       notify:
         - systemd start munge
+
+- name: Ensure slurm group
+  group:
+    name: slurm
+    state: present
+
+- name: Ensure slurm user
+  user:
+    name: slurm
+    state: present
+    group: slurm
 
 - name: Create runtime directories
   file:

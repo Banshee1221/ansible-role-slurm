@@ -2,5 +2,5 @@
 - hosts: slurm
   gather_facts: yes
 
-  tasks:
-    - debug: var=ansible_lsb
+  roles:
+    - role: ansible-role-slurm

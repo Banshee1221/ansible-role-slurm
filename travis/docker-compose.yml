@@ -18,6 +18,7 @@ services:
     volumes:
       - './ansible/inventory:/ansible/inventory'
       - './ansible/site.yml:/ansible/site.yml'
+      - './ansible/group_vars/:/ansible/group_vars'
       - '../:/ansible/roles/ansible-role-slurm'
 
   computenode:

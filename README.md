@@ -1,5 +1,7 @@
 # ansible-role-slurm
 
+**REQUIRES ANSIBLE 2.7+**
+
 This role sets up a slurm cluster along with a database for slurm accounting.
 If a database exists in your environment then it will try to use that.
 

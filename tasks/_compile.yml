@@ -2,20 +2,8 @@
 
 - name: Install build deps for slurm
   apt:
-    name: "{{ item }}"
+    name: [git, gcc, make, ruby, ruby-dev, libpam0g-dev, libmariadb-client-lgpl-dev, libmysqlclient-dev, munge, libmunge-dev, libmunge2]
     state: present
-  with_items:
-    - git
-    - gcc
-    - make
-    - ruby
-    - ruby-dev
-    - libpam0g-dev
-    - libmariadb-client-lgpl-dev
-    - libmysqlclient-dev
-    - munge
-    - libmunge-dev
-    - libmunge2
 
 - name: Get slurm
   get_url:
@@ -36,9 +24,7 @@
     - make contrib
     - make install
 
-- name: Create directories
+- name: Create slurm configuration directory
   file:
-    path: "{{ item }}"
+    path: "{{ slurm_install_dir }}/etc"
     state: directory
-  with_items:
-    - "{{ slurm_install_dir }}/etc"

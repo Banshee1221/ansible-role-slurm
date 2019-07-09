@@ -35,12 +35,6 @@
 
 - name: Ensure munge
   block:
-    - name: Ensure munge service stopped
-      service:
-        name: munge
-        state: stopped
-      ignore_errors: True
-
     - name: Copy munge.service
       copy:
           src: "{{ role_path }}/files/munge.service"
@@ -48,12 +42,8 @@
           owner: root
           group: root
           mode: 0644
-
-    - name: Ensure munge service started
-      systemd:
-        name: munge
-        state: started
-        daemon_reload: yes
+      notify:
+        - systemd stop munge
 
     - name: Retrieve key for munge cluster
       fetch:
@@ -77,6 +67,8 @@
         mode: 0400
       when:
         - not munge_external_key
+      notify:
+        - systemd start munge
 
     - name: Distribute munge key to all machines
       copy:
@@ -86,11 +78,8 @@
         mode: 0400
       when:
         - munge_external_key
-
-    - name: Restart munge service
-      service:
-        name: munge
-        state: restarted
+      notify:
+        - systemd start munge
 
 - name: Create runtime directories
   file:

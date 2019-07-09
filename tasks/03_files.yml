@@ -14,7 +14,8 @@
 - name: Set fact about hosts for templates
   set_fact:
     hpc: "{{ play_hosts }}"
-  when: headnode is defined
+  when:
+    - headnode is defined
   run_once: True
   
 - name: Template out the Slurm conf files
@@ -24,12 +25,13 @@
     owner: slurm
     group: slurm
     mode: 0644
-  with_items:
+  loop:
     - cgroup.conf
     - cgroup_allowed_devices_file.conf
     - slurm.conf
     - slurmdbd.conf
-  when: headnode is defined
+  when:
+    - headnode is defined
 
 - name: Template out the service files to the slurm controller
   template:
@@ -38,18 +40,18 @@
     owner: root
     group: root
     mode: 0644
-  with_items:
+  loop:
     - slurmctld.service
     - slurmdbd.service
-  when: headnode is defined
+  when:
+    - headnode is defined
 
 - name: Template out service files to all machines
   template:
-    src: "{{ role_path }}/files/{{ item }}.j2"
-    dest: "/etc/systemd/system/{{ item }}"
+    src: "{{ role_path }}/files/slurmd.service.j2"
+    dest: "/etc/systemd/system/slurmd.service"
     owner: root
     group: root
     mode: 0644
-  with_items:
-    - slurmd.service
-  when: headnode is not defined
+  when:
+    - headnode is not defined

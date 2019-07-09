@@ -1,0 +1,19 @@
+ handlers:
+    - name: systemd start munge
+      systemd:
+        name: munge
+        state: started
+        daemon_reload: yes
+    
+    - name: systemd stop munge
+      systemd:
+        name: munge
+        state: stopped
+        daemon_reload: yes
+      ignore_errors: True
+
+    - name: systemd restart munge
+      systemd:
+        name: munge
+        state: restarted
+        daemon_reload: yes

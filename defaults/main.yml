@@ -12,5 +12,5 @@ slurm_drmaa_version: 1.2.0-dev.44cc67e
 conf_dir: /tmp
 
 munge_external_key: True
-munge_external_key_data: "{{ lookup('hashi_vault', 'secret=secret/ansible/slurm:munge_base64') | base64decode }}"
+munge_external_key_data: "{{ lookup('hashi_vault', 'secret=secret/ansible/slurm:munge_base64') | b64decode }}"
 munge_regenerate_key: False

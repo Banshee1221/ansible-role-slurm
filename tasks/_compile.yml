@@ -18,7 +18,7 @@
 
 - name: Compile slurm
   command: "{{ item }} chdir=/tmp/slurm-{{ slurm_version }}"
-  with_items:
+  loop:
     - "./configure --prefix={{ slurm_install_dir }} --sysconfdir={{ slurm_install_dir }}/etc/ --enable-pam --with-pam_dir=/lib/x86_64-linux-gnu/security/"
     - "make -j{{ ansible_processor_vcpus }}"
     - make contrib

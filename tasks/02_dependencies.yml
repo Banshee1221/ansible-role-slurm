@@ -87,7 +87,7 @@
     owner: slurm
     group: slurm
     state: directory
-  with_items:
+  loop:
     - /var/run/slurm
     - /var/spool/slurm
     - /var/log/slurm

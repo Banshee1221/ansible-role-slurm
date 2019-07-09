@@ -1,6 +1,6 @@
 FROM ubuntu:18.04
 RUN apt-get update
-RUN apt-get install -y python3-pip openssh-server
+RUN apt-get install -y python3-pip python3 openssh-server
 RUN pip3 install --upgrade pip
 RUN pip3 install ansible
 RUN mkdir -p /root/.ssh

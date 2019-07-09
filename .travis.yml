@@ -9,7 +9,7 @@ install:
   - sleep 10
 script:
   - docker-compose exec headnode bash -c "cd /ansible && ansible-playbook -i inventory site.yml --syntax-check"
-  - docker-compose exec headnode bash -c "cd /ansible && ansible-playbook -vvv -i inventory site.yml"
+  - docker-compose exec headnode bash -c "cd /ansible && ansible-playbook -i inventory site.yml"
 
 # after_success:
 #   # Deployable image tags must be in format: web-latest, cli-latest, nginx-latest

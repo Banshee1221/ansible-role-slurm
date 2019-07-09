@@ -1,12 +1,16 @@
 db_host: database.sanbi.ac.za
-db_user: "{{ lookup('hashi_vault', 'secret=secret/ansible/database/admin_user:value)}}"
-db_pass: "{{ lookup('hashi_vault', 'secret=secret/ansible/database/admin_pass:value)}}"
+db_user: "{{ lookup('hashi_vault', 'secret=secret/ansible/database:user}}"
+db_pass: "{{ lookup('hashi_vault', 'secret=secret/ansible/database:password)}}"
 db_port: 3306
 slurm_version: 17.02.11
 slurm_install_dir: /tools/admin/slurm
-slurm_mariadb_name: "{{ lookup('hashi_vault', 'secret=secret/ansible/slurm/slurm_db_user:value)}}"
-slurm_mariadb_pass: "{{ lookup('hashi_vault', 'secret=secret/ansible/slurm/slurm_db_pass:value)}}"
+slurm_mariadb_name: "{{ lookup('hashi_vault', 'secret=secret/ansible/slurm:slurm_db_user)}}"
+slurm_mariadb_pass: "{{ lookup('hashi_vault', 'secret=secret/ansible/slurm:slurm_db_pass)}}"
 
 slurm_drmaa_support: True
 slurm_drmaa_version: 1.2.0-dev.44cc67e
 conf_dir: /tmp
+
+munge_external_key: False
+munge_external_key_data: "{{ lookup('hashi_vault', 'secret=secret/ansible/slurm:munge_base64)}} | base64decode"
+munge_regenerate_key: False

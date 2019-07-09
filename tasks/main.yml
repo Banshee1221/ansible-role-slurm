@@ -53,7 +53,7 @@
 
 - name: Deploy Slurm files
   include_tasks: 03_files.yml
-  nootify:
+  notify:
     - systemd restart slurmdbd
     - systemd restart slurmctld
     - systemd restart slurmd

@@ -1,6 +1,5 @@
 ---
 - hosts: slurm
-  gather_facts: yes
-
+  become: true
   roles:
     - role: ansible-role-slurm

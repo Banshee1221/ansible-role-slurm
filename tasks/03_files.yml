@@ -47,6 +47,9 @@
   loop:
     - { src: slurmctld.service, when: True }
     - { src: slurmdbd.service, when: "{{slurm_use_db}}" }
+  notify:
+    - systemd restart slurmdbd
+    - systemd restart slurmctld
 
 - name: Template out service files to all machines
   template:
@@ -57,3 +60,5 @@
     mode: 0644
   when:
     - headnode is not defined
+  notify:
+    - systemd restart slurmd

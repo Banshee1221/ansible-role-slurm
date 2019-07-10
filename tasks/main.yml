@@ -56,13 +56,7 @@
   include_tasks: 02_dependencies.yml
 
 - name: Deploy Slurm files
-  include_tasks: 03_files.yml
-  args:
-    apply:
-      notify:
-        - systemd restart slurmdbd
-        - systemd restart slurmctld
-        - systemd restart slurmd
+  include_tasks: 03_files.yml      
   
 - name: Copy environment file
   template:

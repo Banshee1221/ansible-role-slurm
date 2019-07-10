@@ -20,6 +20,7 @@ services:
       - './ansible/site.yml:/ansible/site.yml'
       - './ansible/group_vars/:/ansible/group_vars'
       - '../:/ansible/roles/ansible-role-slurm'
+      - '/sys/fs/cgroup:/sys/fs/cgroup:ro'
     extra_hosts:
       - "headnode.cluster:10.5.0.2"
       - "computenode.cluster:10.5.0.3"
@@ -37,6 +38,8 @@ services:
       - '60000-60100'
       - '6817'
       - '22'
+    volumes:
+      - '/sys/fs/cgroup:/sys/fs/cgroup:ro'
     extra_hosts:
       - "headnode.cluster:10.5.0.2"
       - "computenode.cluster:10.5.0.3"

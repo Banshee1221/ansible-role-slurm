@@ -3,6 +3,9 @@ ansible_ssh_user=root
 ansible_become=True
 ansible_become_method=su
 
+[slurm:vars]
+partitions="['main']"
+
 [slurm]
 headnode.cluster slurm_builder=True headnode=True
 computenode.cluster

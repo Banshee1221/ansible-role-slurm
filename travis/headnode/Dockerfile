@@ -40,6 +40,9 @@ RUN echo "Host *\n\
    StrictHostKeyChecking no\n\
    UserKnownHostsFile=/dev/null"\
 > /root/.ssh/config
+RUN echo "10.5.0.2	headnode.cluster\n\
+10.5.0.3 computenode.cluster\n"\
+>> /etc/hosts
 RUN chmod 0600 -R /root/.ssh
 RUN service ssh stop
 RUN mkdir -p /var/run/sshd /run/sshd

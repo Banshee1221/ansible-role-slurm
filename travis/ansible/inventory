@@ -4,5 +4,5 @@ ansible_become=True
 ansible_become_method=su
 
 [slurm]
-10.5.0.2 slurm_builder=True headnode=True
-10.5.0.3
+headnode.cluster slurm_builder=True headnode=True
+computenode.cluster

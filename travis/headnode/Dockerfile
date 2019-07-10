@@ -43,4 +43,4 @@ RUN echo "Host *\n\
 RUN chmod 0600 -R /root/.ssh
 RUN service ssh stop
 RUN mkdir -p /var/run/sshd /run/sshd
-CMD ["/usr/sbin/sshd", "-D"]
+CMD ["/sbin/init", ";", "/usr/sbin/sshd", "-D"]

@@ -10,7 +10,7 @@ services:
     networks:
       vpcbr:
         ipv4_address: 10.5.0.2
-    hostname: headnode.cluster
+    hostname: "headnode.cluster"
     ports:
       - '80'
       - '443'
@@ -28,6 +28,8 @@ services:
     extra_hosts:
       - "headnode.cluster:10.5.0.2"
       - "computenode.cluster:10.5.0.3"
+      - "headnode:10.5.0.2"
+      - "computenode:10.5.0.3"
 
   computenode:
     build:
@@ -37,7 +39,7 @@ services:
     networks:
       vpcbr:
         ipv4_address: 10.5.0.3
-    hostname: computenode.cluster
+    hostname: "computenode.cluster"
     ports:
       - '80'
       - '443'
@@ -51,7 +53,8 @@ services:
     extra_hosts:
       - "headnode.cluster:10.5.0.2"
       - "computenode.cluster:10.5.0.3"
-
+      - "headnode:10.5.0.2"
+      - "computenode:10.5.0.3"
 
 networks:
   vpcbr:

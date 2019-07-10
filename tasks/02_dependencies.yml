@@ -2,7 +2,7 @@
 
 - name: Install dependencies for Slurm runtime
   apt:
-    name: [munge, libmunge-dev, libmunge2, procps]
+    name: [munge, libmunge-dev, libmunge2, procps, mailx]
     state: present
 
 - name: Ensure key-based authentication

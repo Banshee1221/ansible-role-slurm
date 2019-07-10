@@ -20,6 +20,9 @@ services:
       - './ansible/site.yml:/ansible/site.yml'
       - './ansible/group_vars/:/ansible/group_vars'
       - '../:/ansible/roles/ansible-role-slurm'
+    extra_hosts:
+      - "headnode.cluster:10.5.0.2"
+      - "computenode.cluster:10.5.0.3"
 
   computenode:
     build:
@@ -34,6 +37,10 @@ services:
       - '60000-60100'
       - '6817'
       - '22'
+    extra_hosts:
+      - "headnode.cluster:10.5.0.2"
+      - "computenode.cluster:10.5.0.3"
+
 
 networks:
   vpcbr:

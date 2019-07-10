@@ -11,4 +11,5 @@ script:
   - docker-compose exec headnode bash -c "cd /ansible && ansible-playbook -i inventory site.yml --syntax-check"
   - docker-compose exec headnode bash -c "cd /ansible && ansible-playbook -i inventory site.yml"
   - sleep 10
-  - docker-compose exec headnode bash -c "sinfo"
+  - docker-compose exec headnode bash -c "ls /tools/admin/slurm"
+  - docker-compose exec headnode bash -c "/tools/admin/slurm/bin/sinfo"

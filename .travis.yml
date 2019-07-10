@@ -12,4 +12,8 @@ script:
   - docker-compose exec headnode bash -c "cd /ansible && ansible-playbook -i inventory site.yml"
   - sleep 10
   - docker-compose exec headnode bash -c "ls /tools/admin/slurm"
+  - docker-compose exec headnode bash -c "ps aux | grep slurm"
+  - docker-compose exec computenode bash -c "ps aux | grep slurm"
+  - docker-compose exec headnode bash -c "systemctl status slurmctld"
+  - docker-compose exec computenode bash -c "systemctl status slurmd"
   - docker-compose exec headnode bash -c "/tools/admin/slurm/bin/sinfo"

@@ -1,5 +1,10 @@
 ---
 
+- name: Install necessary components for ansible role
+  apt:
+    name: rsync
+    state: present
+
 - name: Check if Database exists on machine
   wait_for: "host={{ db_host }} port={{ db_port }} timeout=5"
   register: dbfail
@@ -51,6 +56,28 @@
     - slurm_drmaa_support
     - slurm_builder is defined
     - not stat_drmaa_result.stat.exists
+
+- name: Ensure slurm configuration directory
+  file:
+    path: "{{ slurm_install_dir }}/etc"
+    state: directory
+
+- name:
+  block:
+    - name: Copy Slurm files from headnode
+      synchronize:
+        src: "{{ slurm_install_dir | regex_replace('\\/$', '') }}/"
+        dest: "/tmp/slurm/"
+        recursive: True
+        mode: pull
+      when: headnode is defined
+    - name: Copy Slurm files to non-headnodes
+      synchronize:
+        src: "/tmp/slurm/"
+        dest: "{{ slurm_install_dir | regex_replace('\\/$', '') }}"
+        mode: push
+      when: not (headnode is defined)
+  when: not slurm_use_shared_fs
 
 - name: Install Slurm dependencies
   include_tasks: 02_dependencies.yml

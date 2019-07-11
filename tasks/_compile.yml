@@ -24,8 +24,3 @@
     - "make -j{{ ansible_processor_vcpus }}"
     - make contrib
     - make install
-
-- name: Create slurm configuration directory
-  file:
-    path: "{{ slurm_install_dir }}/etc"
-    state: directory

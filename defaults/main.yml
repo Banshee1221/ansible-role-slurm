@@ -10,6 +10,7 @@ slurm_install_dir: /tools/admin/slurm
 slurm_drmaa_support: True
 slurm_drmaa_version: 1.2.0-dev.44cc67e
 slurm_use_db: True
+slurm_use_shared_fs: False
 
 # Slurm DB options
 slurm_mariadb_name: "{{ lookup('hashi_vault', 'secret=secret/ansible/slurm:db_user)}}"

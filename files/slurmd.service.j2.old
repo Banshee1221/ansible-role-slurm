@@ -4,15 +4,18 @@ After=network.target munge.service
 ConditionPathExists={{ slurm_install_dir }}/etc/slurm.conf
 
 [Service]
-Type=forking
+Type=oneshot
 EnvironmentFile=-/etc/sysconfig/slurmd
-ExecStart={{ slurm_install_dir }}/sbin/slurmd -d {{ slurm_install_dir }}/sbin/slurmstepd $SLURMD_OPTIONS
-ExecReload=/bin/kill -HUP $MAINPID
+ExecStartPre=-/usr/bin/pkill -KILL slurmd
+ExecStart={{ slurm_install_dir }}/sbin/slurmd $SLURMD_OPTIONS
+ExecReload=-/bin/kill -HUP $MAINPID
+ExecStop=-/usr/bin/pkill -KILL slurmd
 PIDFile=/var/run/slurm/slurmd.pid
 KillMode=process
 LimitNOFILE=51200
 LimitMEMLOCK=infinity
 LimitSTACK=infinity
+RemainAfterExit=true
 
 [Install]
 WantedBy=multi-user.target

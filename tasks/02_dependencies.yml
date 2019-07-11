@@ -45,7 +45,7 @@
           group: root
           mode: 0644
       notify:
-        - systemd stop munge
+        - systemd restart munge
 
     - name: Retrieve key for munge cluster
       fetch:
@@ -81,7 +81,7 @@
       when:
         - munge_external_key
       notify:
-        - systemd start munge
+        - systemd restart munge
 
 - name: Ensure slurm group
   group:

@@ -123,7 +123,11 @@ SelectTypeParameters=CR_Core_Memory
 #AccountingStorageLoc=
 #AccountingStoragePass=
 #AccountingStoragePort=
+{% if slurm_use_db %}
 AccountingStorageType=accounting_storage/slurmdbd
+{% else %}
+#AccountingStorageType=
+{% endif %}
 #AccountingStorageUser=
 AccountingStoreJobComment=YES
 ClusterName=sanbi

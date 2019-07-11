@@ -1,6 +1,6 @@
 {% for host in play_hosts %}
 {% if hostvars[host].headnode is defined %}
-ControlMachine={{ host }}
+SlurmctldHost={{ host }}
 {% else %}
 {% endif %}
 {% endfor %}

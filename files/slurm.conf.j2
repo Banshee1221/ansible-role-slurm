@@ -1,6 +1,6 @@
 {% for host in play_hosts %}
 {% if hostvars[host].headnode is defined %}
-{% if slurm_version > 17.02.11 %}
+{% if slurm_version is version('18.00.00', '>'),  %}
 SlurmctldHost={{ hostvars[host].ansible_fqdn }}
 SlurmctldHost={{ hostvars[host].ansible_hostname }}
 {% else %}

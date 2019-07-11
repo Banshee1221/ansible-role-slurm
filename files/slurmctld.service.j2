@@ -6,7 +6,7 @@ ConditionPathExists={{ slurm_install_dir }}/etc/slurm.conf
 [Service]
 Type=forking
 EnvironmentFile=-/etc/sysconfig/slurmctld
-ExecStart={{ slurm_install_dir }}/sbin/slurmctld $SLURMCTLD_OPTIONS
+ExecStart={{ slurm_install_dir }}/sbin/slurmctld -vvv $SLURMCTLD_OPTIONS
 ExecReload=/bin/kill -HUP $MAINPID
 PIDFile=/var/run/slurm/slurmctld.pid
 

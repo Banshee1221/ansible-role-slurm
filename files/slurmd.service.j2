@@ -8,6 +8,7 @@ Type=forking
 EnvironmentFile=-/etc/sysconfig/slurmd
 ExecStart={{ slurm_install_dir }}/sbin/slurmd -d {{ slurm_install_dir }}/sbin/slurmstepd $SLURMD_OPTIONS
 ExecReload=/bin/kill -HUP $MAINPID
+ExecRestart=bin/kill $MAINPID
 PIDFile=/var/run/slurm/slurmd.pid
 KillMode=process
 LimitNOFILE=51200

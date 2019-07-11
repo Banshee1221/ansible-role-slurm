@@ -4,10 +4,10 @@ db_user: admin
 db_pass: admin
 
 # General slurm options
-slurm_version: 17.02.11
+#slurm_version: 17.02.11
 slurm_install_dir: /tools/admin/slurm
 slurm_drmaa_support: True
-slurm_drmaa_version: 1.2.0-dev.44cc67e
+#slurm_drmaa_version: 1.2.0-dev.44cc67e
 slurm_use_db: False
 slurm_use_shared_fs: False
 

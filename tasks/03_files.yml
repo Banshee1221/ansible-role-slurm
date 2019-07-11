@@ -35,6 +35,10 @@
       - { src: cgroup_allowed_devices_file.conf, when: True }
       - { src: slurm.conf, when: True }
       - { src: slurmdbd.conf, when: "{{slurm_use_db}}" }
+    notify:
+      - systemd restart slurmdbd
+      - systemd restart slurmctld
+      - systemd restart slurmd
   when: slurm_use_shared_fs
 
 - name: Process files for non shared FS environment
@@ -53,6 +57,10 @@
       - { src: cgroup_allowed_devices_file.conf, when: True }
       - { src: slurm.conf, when: True }
       - { src: slurmdbd.conf, when: "{{slurm_use_db}}" }
+    notify:
+      - systemd restart slurmdbd
+      - systemd restart slurmctld
+      - systemd restart slurmd
   when: not slurm_use_shared_fs
 
 - name: Template out the service files to the slurm controller

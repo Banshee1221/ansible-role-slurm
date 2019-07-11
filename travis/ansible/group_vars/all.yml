@@ -6,7 +6,6 @@ db_pass: admin
 # General slurm options
 slurm_install_dir: /tools/admin/slurm
 slurm_drmaa_support: True
-slurm_drmaa_version: 1.2.0-dev.44cc67e
 slurm_use_db: False
 
 # Slurm DB options

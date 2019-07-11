@@ -24,5 +24,6 @@
       PATH: "{{ slurm_install_dir }}/bin:{{ ansible_env.PATH }}"
     loop:
       - "./configure --prefix={{ slurm_install_dir }} --sysconfdir={{ slurm_install_dir }}/etc --with-slurm-inc={{ slurm_install_dir }}/include --with-slurm-lib={{ slurm_install_dir }}/lib" 
+      - "make clean"
       - "make"
       - "make install"

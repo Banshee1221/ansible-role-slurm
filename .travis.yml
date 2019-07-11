@@ -24,3 +24,5 @@ script:
   - docker-compose exec headnode bash -c "journalctl --unit=slurmctld -n 100 --no-pager --full"
   - docker-compose exec computenode bash -c "journalctl --unit=slurmd -n 100 --no-pager --full"
   - docker-compose exec headnode bash -c "/tools/admin/slurm/bin/sinfo"
+  - docker-compose exec computenode bash -c "/tools/admin/slurm/bin/sinfo"
+

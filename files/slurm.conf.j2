@@ -1,7 +1,12 @@
 {% for host in play_hosts %}
 {% if hostvars[host].headnode is defined %}
+{% if slurm_version > 17.02.11 %}
 SlurmctldHost={{ hostvars[host].ansible_fqdn }}
 SlurmctldHost={{ hostvars[host].ansible_hostname }}
+{% else %}
+ControlMachine={{ hostvars[host].ansible_fqdn }}
+ControlMachine={{ hostvars[host].ansible_hostname }}
+{% endif %}
 {% else %}
 {% endif %}
 {% endfor %}

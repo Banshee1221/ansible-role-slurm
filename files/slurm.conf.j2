@@ -1,6 +1,7 @@
 {% for host in play_hosts %}
 {% if hostvars[host].headnode is defined %}
-SlurmctldHost={{ host }}
+SlurmctldHost={{ histvars[host].ansible_fqdn }}
+SlurmctldHost={{ hostvars[host].ansible_hostname }}
 {% else %}
 {% endif %}
 {% endfor %}
@@ -182,6 +183,6 @@ PartitionName={{ key|safe }} Nodes={{ temp_dict[key]|join(',') }} Default={{ 'YE
 {% for host in hpc %}
 {% if hostvars[host].headnode is defined %}
 {% else %}
-NodeName={{ hostvars[host].inventory_hostname }} Boards=1 SocketsPerBoard={{ hostvars[host].ansible_processor_count }} CoresPerSocket={{ hostvars[host].ansible_processor_cores }} ThreadsPerCore={{ hostvars[host].ansible_processor_threads_per_core }} RealMemory={{ hostvars[host].ansible_memtotal_mb }} State=UNKNOWN
+NodeName={{ hostvars[host].ansible_fqdn }} Boards=1 SocketsPerBoard={{ hostvars[host].ansible_processor_count }} CoresPerSocket={{ hostvars[host].ansible_processor_cores }} ThreadsPerCore={{ hostvars[host].ansible_processor_threads_per_core }} RealMemory={{ hostvars[host].ansible_memtotal_mb }} State=UNKNOWN
 {% endif %}
 {% endfor %}

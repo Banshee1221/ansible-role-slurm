@@ -8,6 +8,10 @@ install:
   - docker-compose up -d
   - sleep 10
 script:
+  - docker-compose exec headnode bash -c "hostname headnode.cluster"
+  - docker-compose exec computenode bash -c "hostname computenode.cluster"
+  - docker-compose exec headnode bash -c "echo headnode.cluster > /etc/hostname"
+  - docker-compose exec computenode bash -c "echo computenode.cluster > /etc/hostname"
   - docker-compose exec headnode bash -c "cd /ansible && ansible-playbook -i inventory site.yml --syntax-check"
   - docker-compose exec headnode bash -c "cd /ansible && ansible-playbook -i inventory site.yml"
   - sleep 10

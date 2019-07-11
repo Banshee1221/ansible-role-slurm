@@ -15,8 +15,8 @@ script:
   - docker-compose exec headnode bash -c "cd /ansible && ansible-playbook -i inventory site.yml --syntax-check"
   - docker-compose exec headnode bash -c "cd /ansible && ansible-playbook -i inventory site.yml"
   - sleep 10
-  - "hostname -s"
-  - "hostname"
+  - docker-compose exec headnode bash -c  "hostname -s; hostname"
+  - docker-compose exec computenode bash -c  "hostname -s; hostname"
   - docker-compose exec headnode bash -c "cat /tools/admin/slurm/etc/slurm.conf"
   - docker-compose exec headnode bash -c "ls /tools/admin/slurm"
   - docker-compose exec headnode bash -c "ps aux | grep slurm"

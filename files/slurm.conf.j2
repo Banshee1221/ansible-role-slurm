@@ -1,6 +1,6 @@
 {% for host in play_hosts %}
 {% if hostvars[host].headnode is defined %}
-SlurmctldHost={{ histvars[host].ansible_fqdn }}
+SlurmctldHost={{ hostvars[host].ansible_fqdn }}
 SlurmctldHost={{ hostvars[host].ansible_hostname }}
 {% else %}
 {% endif %}

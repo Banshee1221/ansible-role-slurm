@@ -5,7 +5,6 @@ services:
   headnode:
     build:
       context: './headnode/.'
-      network: host
     privileged: true
     networks:
       vpcbr:
@@ -34,7 +33,6 @@ services:
   computenode:
     build:
       context: './computenode/.'
-      network: host
     privileged: true
     networks:
       vpcbr:

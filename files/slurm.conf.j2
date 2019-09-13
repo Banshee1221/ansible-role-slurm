@@ -1,11 +1,11 @@
-{% for host in play_hosts %}
-{% if hostvars[host].headnode is defined %}
+{% for host in ansible_play_hosts %}
+{% if hostvars[host].headnode is defined | default(false) %}
 {% if slurm_version is version('18.00.00', '>')  %}
-SlurmctldHost={{ hostvars[host].ansible_fqdn }}
 SlurmctldHost={{ hostvars[host].ansible_hostname }}
+SlurmctldHost={{ hostvars[host].ansible_fqdn }}
 {% else %}
-ControlMachine={{ hostvars[host].ansible_fqdn }}
 ControlMachine={{ hostvars[host].ansible_hostname }}
+ControlMachine={{ hostvars[host].ansible_fqdn }}
 {% endif %}
 {% else %}
 {% endif %}

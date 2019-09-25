@@ -62,6 +62,12 @@
     path: "{{ slurm_install_dir }}/etc"
     state: directory
 
+- name: Install Slurm dependencies
+  include_tasks: 02_dependencies.yml
+
+- name: Deploy Slurm files
+  include_tasks: 03_files.yml 
+
 - name:
   block:
     - name: Copy Slurm files from headnode
@@ -77,13 +83,7 @@
         dest: "{{ slurm_install_dir | regex_replace('\\/$', '') }}"
         mode: push
       when: not (headnode is defined)
-  when: not slurm_use_shared_fs
-
-- name: Install Slurm dependencies
-  include_tasks: 02_dependencies.yml
-
-- name: Deploy Slurm files
-  include_tasks: 03_files.yml      
+  when: not slurm_use_shared_fs     
   
 - name: Copy environment file
   template:

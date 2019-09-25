@@ -18,50 +18,25 @@
     - headnode is defined
   run_once: True
   
-- name: Process files for shared FS environment
-  block:
-  - name: Template out the Slurm conf files for shared FS environment
-    template:
-      src: "{{ role_path }}/files/{{ item.src }}.j2"
-      dest: "{{ slurm_install_dir }}/etc/{{ item.src }}"
-      owner: slurm
-      group: slurm
-      mode: 0644
-    when:
-      - headnode is defined
-      - item.when
-    loop:
-      - { src: cgroup.conf, when: True }
-      - { src: cgroup_allowed_devices_file.conf, when: True }
-      - { src: slurm.conf, when: True }
-      - { src: slurmdbd.conf, when: "{{slurm_use_db}}" }
-    notify:
-      - systemd restart slurmdbd
-      - systemd restart slurmctld
-      - systemd restart slurmd
-  when: slurm_use_shared_fs
-
-- name: Process files for non shared FS environment
-  block:
-  - name: Template out the Slurm conf files
-    template:
-      src: "{{ role_path }}/files/{{ item.src }}.j2"
-      dest: "{{ slurm_install_dir }}/etc/{{ item.src }}"
-      owner: slurm
-      group: slurm
-      mode: 0644
-    when:
-      - item.when
-    loop:
-      - { src: cgroup.conf, when: True }
-      - { src: cgroup_allowed_devices_file.conf, when: True }
-      - { src: slurm.conf, when: True }
-      - { src: slurmdbd.conf, when: "{{slurm_use_db}}" }
-    notify:
-      - systemd restart slurmdbd
-      - systemd restart slurmctld
-      - systemd restart slurmd
-  when: not slurm_use_shared_fs
+- name: Template out the Slurm conf files
+  template:
+    src: "{{ role_path }}/files/{{ item.src }}.j2"
+    dest: "{{ slurm_install_dir }}/etc/{{ item.src }}"
+    owner: slurm
+    group: slurm
+    mode: 0644
+  when:
+    - headnode is defined
+    - item.when
+  loop:
+    - { src: cgroup.conf, when: True }
+    - { src: cgroup_allowed_devices_file.conf, when: True }
+    - { src: slurm.conf, when: True }
+    - { src: slurmdbd.conf, when: "{{slurm_use_db}}" }
+  notify:
+    - systemd restart slurmdbd
+    - systemd restart slurmctld
+    - systemd restart slurmd
 
 - name: Template out the service files to the slurm controller
   template:

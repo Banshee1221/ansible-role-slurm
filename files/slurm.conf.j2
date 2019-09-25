@@ -124,11 +124,16 @@ SelectTypeParameters=CR_Core_Memory
 #
 # LOGGING AND ACCOUNTING
 #AccountingStorageEnforce=0
+{% for host in ansible_play_hosts %}
+{% if hostvars[host].headnode is defined | default(false) %}
 {% if slurm_use_db %}
 AccountingStorageHost={{ hostvars[host].ansible_hostname }}
 {% else %}
 #AccountingStorageHost=
 {% endif %}
+{% else %}
+{% endif %}
+{% endfor %}
 #AccountingStorageLoc=
 #AccountingStoragePass=
 #AccountingStoragePort=

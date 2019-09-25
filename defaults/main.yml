@@ -5,6 +5,7 @@ db_pass: "{{ lookup('hashi_vault', 'secret=secret/ansible/database:password)}}"
 db_port: 3306
 
 # General slurm options
+slurm_cluster_name: default
 slurm_version: 18.08.8
 slurm_install_dir: /tools/admin/slurm
 slurm_drmaa_support: True

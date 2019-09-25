@@ -124,7 +124,11 @@ SelectTypeParameters=CR_Core_Memory
 #
 # LOGGING AND ACCOUNTING
 #AccountingStorageEnforce=0
+{% if slurm_use_db %}
+AccountingStorageHost={{ hostvars[host].ansible_hostname }}
+{% else %}
 #AccountingStorageHost=
+{% endif %}
 #AccountingStorageLoc=
 #AccountingStoragePass=
 #AccountingStoragePort=
@@ -135,7 +139,7 @@ AccountingStorageType=accounting_storage/slurmdbd
 {% endif %}
 #AccountingStorageUser=
 AccountingStoreJobComment=YES
-ClusterName=sanbi
+ClusterName={{ slurm_cluster_name }}
 #DebugFlags=
 #JobCompHost=
 #JobCompLoc=

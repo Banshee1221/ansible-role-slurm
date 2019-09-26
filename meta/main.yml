@@ -1,0 +1,17 @@
+---
+dependencies: []
+
+galaxy_info:
+  author: Eugene de Beste
+  description: Compiles and installs the Slurm  resource scheduler container software on Linux machines.
+  license: MIT
+  min_ansible_version: 2.5
+  platforms:
+  - name: Ubuntu
+    versions:
+    - 16.04 (Xenial Xerus)
+    - 18.04 (Bionic Beaver)
+  galaxy_tags:
+    - debian
+    - ubuntu
+    - slurm

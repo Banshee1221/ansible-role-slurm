@@ -50,7 +50,7 @@ ProctrackType=proctrack/cgroup
 #PropagatePrioProcess=0
 #PropagateResourceLimits=
 #PropagateResourceLimitsExcept=
-#RebootProgram=
+RebootProgram="/sbin/reboot"
 ReturnToService=1
 #SallocDefaultCommand=
 SlurmctldPidFile=/var/run/slurm/slurmctld.pid
@@ -183,19 +183,19 @@ SlurmdDebug=3
 {% if partition in hostvars[host].partitions %}
 {% if hostvars[host].headnode is defined %}
 {% else %}
-{% set _dummy = temp_dict[partition].append(host) %}
+{% set _dummy = temp_dict[partition].append(host.split(".")[0]) %}
 {% endif %}
 {% else %}
 {% endif %}
 {% endfor %}
 {% endfor %}
 {% for key in temp_dict %}
-PartitionName={{ key|safe }} Nodes={{ temp_dict[key]|join(',') }} Default={{ 'YES' if key.lower()=='main' else 'NO' }} MaxTime=INFINITE State=UP
+PartitionName={{ key|safe }} Nodes={{ temp_dict[key]|join(',') }} Default={{ 'YES' if key.lower()=='main' else 'NO' }} DefaultTime=3-00:00:00 MaxTime=14-00:00:00 MaxMemPerNode=257931 DefMemPerCPU=8192 State=UP
 {% endfor %}
 # COMPUTE NODES
 {% for host in hpc %}
 {% if hostvars[host].headnode is defined %}
 {% else %}
-NodeName={{ hostvars[host].ansible_fqdn }} Boards=1 SocketsPerBoard={{ hostvars[host].ansible_processor_count }} CoresPerSocket={{ hostvars[host].ansible_processor_cores }} ThreadsPerCore={{ hostvars[host].ansible_processor_threads_per_core }} RealMemory={{ hostvars[host].ansible_memtotal_mb }} State=UNKNOWN
+NodeName={{ hostvars[host].ansible_hostname }} NodeAddr={{ hostvars[host].ansible_fqdn }} Boards=1 SocketsPerBoard={{ hostvars[host].ansible_processor_count }} CoresPerSocket={{ hostvars[host].ansible_processor_cores }} ThreadsPerCore={{ hostvars[host].ansible_processor_threads_per_core }} RealMemory={{ hostvars[host].ansible_memtotal_mb }} State=UNKNOWN
 {% endif %}
 {% endfor %}

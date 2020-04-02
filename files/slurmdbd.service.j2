@@ -9,7 +9,7 @@ Type=forking
 EnvironmentFile=-/etc/sysconfig/slurmdbd
 ExecStart={{ slurm_install_dir }}/sbin/slurmdbd $SLURMDBD_OPTIONS
 ExecReload=/bin/kill -HUP $MAINPID
-PIDFile=/var/run/slurm/slurmdbd.pid
+PIDFile=/var/run/slurmdbd.pid
 
 [Install]
 WantedBy=multi-user.target

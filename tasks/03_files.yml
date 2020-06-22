@@ -17,7 +17,7 @@
   when:
     - headnode is defined
   run_once: True
-  
+
 - name: Template out the Slurm conf files
   template:
     src: "{{ role_path }}/files/{{ item.src }}.j2"

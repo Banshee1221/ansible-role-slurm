@@ -2,10 +2,10 @@
 {% if hostvars[host].headnode is defined | default(false) %}
 {% if slurm_version is version('18.00.00', '>')  %}
 SlurmctldHost={{ hostvars[host].ansible_hostname }}
-SlurmctldHost={{ hostvars[host].ansible_fqdn }}
+#SlurmctldHost={{ hostvars[host].ansible_fqdn }}
 {% else %}
 ControlMachine={{ hostvars[host].ansible_hostname }}
-ControlMachine={{ hostvars[host].ansible_fqdn }}
+#ControlMachine={{ hostvars[host].ansible_fqdn }}
 {% endif %}
 {% else %}
 {% endif %}
@@ -181,7 +181,7 @@ SlurmdDebug=3
 {% set _dummy = temp_dict.update({partition: []}) %}
 {% for host in hpc %}
 {% if partition in hostvars[host].partitions %}
-{% if hostvars[host].headnode is defined %}
+{% if hostvars[host].headnode is defined %}  
 {% else %}
 {% set _dummy = temp_dict[partition].append(host.split(".")[0]) %}
 {% endif %}
@@ -189,13 +189,15 @@ SlurmdDebug=3
 {% endif %}
 {% endfor %}
 {% endfor %}
+
 {% for key in temp_dict %}
-PartitionName={{ key|safe }} Nodes={{ temp_dict[key]|join(',') }} Default={{ 'YES' if key.lower()=='main' else 'NO' }} DefaultTime=3-00:00:00 MaxTime=14-00:00:00 MaxMemPerNode=257931 DefMemPerCPU=8192 State=UP
+PartitionName={{ key|safe }} Nodes={{ temp_dict[key]|join(',') }} Default={{ 'YES' if key.lower()=='main' else 'NO' }} DefaultTime=3-00:00:00 MaxTime=14-00:00:00 MaxMemPerNode=257931 DefMemPerCPU=4096 State=UP
 {% endfor %}
 # COMPUTE NODES
-{% for host in hpc %}
-{% if hostvars[host].headnode is defined %}
+{% for host1 in ansible_play_hosts %}
+{% if hostvars[host1].headnode is defined | default(false) %}
+{% elif hostvars[host1].ansible_hostname is defined | default(false) %}
 {% else %}
-NodeName={{ hostvars[host].ansible_hostname }} NodeAddr={{ hostvars[host].ansible_fqdn }} Boards=1 SocketsPerBoard={{ hostvars[host].ansible_processor_count }} CoresPerSocket={{ hostvars[host].ansible_processor_cores }} ThreadsPerCore={{ hostvars[host].ansible_processor_threads_per_core }} RealMemory={{ hostvars[host].ansible_memtotal_mb }} State=UNKNOWN
+NodeName={{ hostvars[host1].ansible_hostname  | default("oops!") }} NodeAddr={{ hostvars[host1].ansible_fqdn| default("oops!") }} Boards=1 SocketsPerBoard={{ hostvars[host1].ansible_processor_count| default("oops!") }} CoresPerSocket={{ hostvars[host1].ansible_processor_cores| default("oops!") }} ThreadsPerCore={{ hostvars[host1].ansible_processor_threads_per_core| default("oops!") }} RealMemory={{ hostvars[host1].ansible_memtotal_mb| default("oops!") }} State=UNKNOWN
 {% endif %}
 {% endfor %}

@@ -182,7 +182,7 @@ SlurmdDebug=3
 {% for host in hpc %}
 {% if partition in hostvars[host].partitions %}
 {% if hostvars[host].headnode is defined %}
-{% elif hostvars[host].ansible_hostname is defined | default(false) }
+{% elif hostvars[host].ansible_hostname is defined | default(false) %}
 {% set _dummy = temp_dict[partition].append(host.split(".")[0]) %}
 {% else %}
 {% endif %}

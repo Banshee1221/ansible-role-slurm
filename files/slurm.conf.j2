@@ -181,15 +181,15 @@ SlurmdDebug=3
 {% set _dummy = temp_dict.update({partition: []}) %}
 {% for host in hpc %}
 {% if partition in hostvars[host].partitions %}
-{% if hostvars[host].headnode is defined %}  
-{% else %}
+{% if hostvars[host].headnode is defined %}
+{% elif hostvars[host].ansible_hostname is defined | default(false) }
 {% set _dummy = temp_dict[partition].append(host.split(".")[0]) %}
+{% else %}
 {% endif %}
 {% else %}
 {% endif %}
 {% endfor %}
 {% endfor %}
-
 {% for key in temp_dict %}
 PartitionName={{ key|safe }} Nodes={{ temp_dict[key]|join(',') }} Default={{ 'YES' if key.lower()=='main' else 'NO' }} DefaultTime=3-00:00:00 MaxTime=14-00:00:00 MaxMemPerNode=257931 DefMemPerCPU=4096 State=UP
 {% endfor %}
@@ -197,7 +197,7 @@ PartitionName={{ key|safe }} Nodes={{ temp_dict[key]|join(',') }} Default={{ 'YE
 {% for host1 in ansible_play_hosts %}
 {% if hostvars[host1].headnode is defined | default(false) %}
 {% elif hostvars[host1].ansible_hostname is defined | default(false) %}
+NodeName={{ hostvars[host1].ansible_hostname  | default("oops!") }} NodeAddr={{ hostvars[host1].ansible_fqdn| default("oops!") }} Boards=1 CPUs={{ hostvars[host1].ansible_processor_vcpus }} SocketsPerBoard={{ hostvars[host1].ansible_processor_count| default("oops!") }} CoresPerSocket={{ hostvars[host1].ansible_processor_cores| default("oops!") }} ThreadsPerCore={{ hostvars[host1].ansible_processor_threads_per_core| default("oops!") }} RealMemory={{ hostvars[host1].ansible_memtotal_mb| default("oops!") }} State=UNKNOWN
 {% else %}
-NodeName={{ hostvars[host1].ansible_hostname  | default("oops!") }} NodeAddr={{ hostvars[host1].ansible_fqdn| default("oops!") }} Boards=1 SocketsPerBoard={{ hostvars[host1].ansible_processor_count| default("oops!") }} CoresPerSocket={{ hostvars[host1].ansible_processor_cores| default("oops!") }} ThreadsPerCore={{ hostvars[host1].ansible_processor_threads_per_core| default("oops!") }} RealMemory={{ hostvars[host1].ansible_memtotal_mb| default("oops!") }} State=UNKNOWN
 {% endif %}
 {% endfor %}
